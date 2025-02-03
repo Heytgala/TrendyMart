@@ -5,7 +5,8 @@ import verifyEmailTemplate from '../utils/verifyEmailTemplate.js'
 import generatedAccessToken from '../utils/generatedAccessToken.js'
 import genertedRefreshToken from '../utils/generatedRefreshToken.js'
 import uploadImageClodinary from '../utils/uploadImageClodinary.js'
-
+import generatedOtp from '../utils/generatedOtp.js'
+import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js'
 
 export async function registerUserController(request,response) {
     try {
@@ -187,7 +188,7 @@ export async function logoutController(request,response){
         })
 
         return response.json({
-            message : "Logout successfully",
+            message : "You have logged out successfully",
             error : false,
             success : true
         })
@@ -213,7 +214,7 @@ export async  function uploadAvatar(request,response){
         })
 
         return response.json({
-            message : "upload profile",
+            message : "Please upload profile avatar",
             success : true,
             error : false,
             data : {
@@ -258,6 +259,161 @@ export async function updateUserDetails(request,response){
             data : updateUser
         })
 
+
+    } catch (error) {
+        return response.status(500).json({
+            message : error.message || error,
+            error : true,
+            success : false
+        })
+    }
+}
+
+//Forgot password
+export async function forgotPasswordController(request,response) {
+    try {
+        const { email } = request.body 
+
+        const user = await UserModel.findOne({ email })
+
+        if(!user){
+            return response.status(400).json({
+                message : "Email Id does not exists",
+                error : true,
+                success : false
+            })
+        }
+
+        const otp = generatedOtp()
+        const expireTime = new Date() + 60 * 60 * 1000 // 1hr
+
+        const update = await UserModel.findByIdAndUpdate(user._id,{
+            forgot_password_otp : otp,
+            forgot_password_expiry : new Date(expireTime).toISOString()
+        })
+
+        await sendEmail({
+            sendTo : email,
+            subject : "Forgot password from TrendyMart",
+            html : forgotPasswordTemplate({
+                name : user.name,
+                otp : otp
+            })
+        })
+        return response.json({
+            message : "Check out for email received from TrendyMart",
+            error : false,
+            success : true
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message : error.message || error,
+            error : true,
+            success : false
+        })
+    }
+}
+
+//Forgot Password Verification
+export async function verifyForgotPasswordOtp(request,response){
+    try {
+        const { email , otp }  = request.body
+
+        if(!email || !otp){
+            return response.status(400).json({
+                message : "Provide necessary fields such as Email & OTP.",
+                error : true,
+                success : false
+            })
+        }
+
+        const user = await UserModel.findOne({ email })
+
+        if(!user){
+            return response.status(400).json({
+                message : "Email Id is not registered",
+                error : true,
+                success : false
+            })
+        }
+
+        const currentTime = new Date().toISOString()
+
+        if(user.forgot_password_expiry < currentTime  ){
+            return response.status(400).json({
+                message : "OTP has expired",
+                error : true,
+                success : false
+            })
+        }
+
+        if(otp !== user.forgot_password_otp){
+            return response.status(400).json({
+                message : "Invalid OTP",
+                error : true,
+                success : false
+            })
+        }
+        const updateUser = await UserModel.findByIdAndUpdate(user?._id,{
+            forgot_password_otp : "",
+            forgot_password_expiry : ""
+        })
+        
+        return response.json({
+            message : "Verify otp successfully",
+            error : false,
+            success : true
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message : error.message || error,
+            error : true,
+            success : false
+        })
+    }
+}
+
+//Password Reset
+export async function resetpassword(request,response){
+    try {
+        const { email , newPassword, confirmPassword } = request.body 
+
+        if(!email || !newPassword || !confirmPassword){
+            return response.status(400).json({
+                message : "Provide out necessary fields"
+            })
+        }
+
+        const user = await UserModel.findOne({ email })
+
+        if(!user){
+            return response.status(400).json({
+                message : "Email is not available",
+                error : true,
+                success : false
+            })
+        }
+
+        if(newPassword !== confirmPassword){
+            return response.status(400).json({
+                message : "New Password and Confirm Password must be same.",
+                error : true,
+                success : false,
+            })
+        }
+        const salt = await bcryptjs.genSalt(10)
+        const hashPassword = await bcryptjs.hash(newPassword,salt)
+
+        const update = await UserModel.findOneAndUpdate(user._id,{
+            password : hashPassword
+        })
+
+        return response.json({
+            message : "Password updated successfully.",
+            error : false,
+            success : true
+        })
 
     } catch (error) {
         return response.status(500).json({
