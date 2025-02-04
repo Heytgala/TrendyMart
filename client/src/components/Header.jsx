@@ -4,6 +4,8 @@ import Search from './Search'
 import { Link, useLocation,useNavigate } from 'react-router-dom'
 import { FaRegUserCircle } from "react-icons/fa";
 import useMobile from '../hooks/useMobile';
+import { FiShoppingCart } from "react-icons/fi";
+
 
 
 const Header = () => {
@@ -36,8 +38,18 @@ const Header = () => {
                         <button className='text-neutral-600 lg:hidden'>
                             <FaRegUserCircle size={25}/>
                         </button>
-                        <div className='hidden lg:block'>
-                            Login and Add to Cart
+                        <div className='hidden lg:flex items-center gap-10'>
+                            <button>Login</button>
+                            <button className='flex items-center gap-2 bg-green-700 hover:bg-green-600 px-3 py-3 rounded text-white'>
+                                {/* Add to cart icon */}
+                                <div className='animate-bounce'>
+                                    <FiShoppingCart size={25}/>
+                                </div>
+                                {/* Cart Items count & Price */}
+                                <div className='font-semibold'>
+                                    <p>My Cart</p>
+                                </div>
+                            </button>
                         </div>               
                     </div>
                 </div>
