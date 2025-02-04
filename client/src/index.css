@@ -1,12 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .hover\:text-primary-100:hover {
     color: #ffc929;
   }
 
   .hover\:text-primary-200:hover {
+    color: #ffbf00;
+  }
+
+  .group-focus-within\:text-primary-200 {
+    color: #0b1a78;
+  }
+
+  .focus-within\:text-primary-200 {
     color: #ffbf00;
   }
 
