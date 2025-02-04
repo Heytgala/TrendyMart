@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.hover\:text-primary-100:hover {
+    color: #ffc929;
+  }
+
+  .hover\:text-primary-200:hover {
+    color: #ffbf00;
+  }
+
+  .hover\:text-secondary-200:hover {
+    color: #00b050;
+  }
+
+  .hover\:text-secondary-100:hover {
+    color: #0b1a78;
+  }
