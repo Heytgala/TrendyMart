@@ -15,8 +15,13 @@ const Header = () => {
     const isSearchPage = location.pathname === "/search"
     const navigate = useNavigate()
 
+    const redirectToLoginPage = ()=>{
+        navigate("/login")
+    }
+
+
   return (
-    <header className='h-24 lg:h-20 lg:shadow-md sticky top-0 flex justify-center flex-col gap-1'>
+    <header className='h-24 lg:h-20 lg:shadow-md sticky top-0 flex justify-center flex-col gap-1 bg-white'>
         {
             !(isSearchPage && isMobile) && (
                 <div className='container mx-auto flex items-center px-2 justify-between'>
@@ -39,7 +44,7 @@ const Header = () => {
                             <FaRegUserCircle size={25}/>
                         </button>
                         <div className='hidden lg:flex items-center gap-10'>
-                            <button>Login</button>
+                            <button onClick={redirectToLoginPage} className='text-lg px-2'>Login</button>
                             <button className='flex items-center gap-2 bg-green-700 hover:bg-green-600 px-3 py-3 rounded text-white'>
                                 {/* Add to cart icon */}
                                 <div className='animate-bounce'>
