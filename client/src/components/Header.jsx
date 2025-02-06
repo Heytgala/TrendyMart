@@ -15,6 +15,8 @@ const Header = () => {
     const isSearchPage = location.pathname === "/search"
     const navigate = useNavigate()
 
+    const user = useSelector((state)=> state?.user)
+    
     const redirectToLoginPage = ()=>{
         navigate("/login")
     }
