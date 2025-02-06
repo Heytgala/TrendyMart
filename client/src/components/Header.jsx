@@ -1,11 +1,13 @@
-import React from 'react'
+import React,{useState} from 'react'
 import logo from '../assets/logo.png'
 import Search from './Search'
 import { Link, useLocation,useNavigate } from 'react-router-dom'
 import { FaRegUserCircle } from "react-icons/fa";
 import useMobile from '../hooks/useMobile';
 import { FiShoppingCart } from "react-icons/fi";
-
+import { useSelector } from 'react-redux';
+import { GoTriangleDown, GoTriangleUp  } from "react-icons/go";
+import UserMenu from './UserMenu';
 
 
 const Header = () => {
@@ -16,9 +18,24 @@ const Header = () => {
     const navigate = useNavigate()
 
     const user = useSelector((state)=> state?.user)
-    
+
+    const [openUserMenu,setOpenUserMenu] = useState(false)
+
     const redirectToLoginPage = ()=>{
         navigate("/login")
+    }
+
+    const handleCloseUserMenu = ()=>{
+        setOpenUserMenu(false)
+    }
+
+    const handleMobileUser = ()=>{
+        if(!user._id){
+            navigate("/login")
+            return
+        }
+
+        navigate("/user")
     }
 
 
@@ -41,12 +58,39 @@ const Header = () => {
                     </div>
 
                     {/* LOGIN and ADD CART */}  
-                    <div>
-                        <button className='text-neutral-600 lg:hidden'>
+                    <div className=''>
+                        <button className='text-neutral-600 lg:hidden' onClick={handleMobileUser}>
                             <FaRegUserCircle size={25}/>
                         </button>
                         <div className='hidden lg:flex items-center gap-10'>
-                            <button onClick={redirectToLoginPage} className='text-lg px-2'>Login</button>
+                            {
+                                user?._id ? (
+                                    <div>
+                                        <div onClick={()=>setOpenUserMenu(preve => !preve)} className='flex select-none items-center gap-1 cursor-pointer'>
+                                            <p>Account</p>
+                                            {
+                                                openUserMenu ? (
+                                                        <GoTriangleUp size={25}/> 
+                                                ) : (
+                                                    <GoTriangleDown size={25}/>
+                                                )
+                                            }
+                                        </div>
+                                        {
+                                            openUserMenu && (
+                                                <div className='absolute right-75 top-15'>
+                                                    <div className='bg-white rounded p-4 min-w-52 lg:shadow-lg'>
+                                                        <UserMenu close={handleCloseUserMenu}/>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                    </div>
+                                ) : (
+                                    <button onClick={redirectToLoginPage} className='text-lg px-2'>Login</button>
+                                )
+                            }
+                            {/* <button onClick={redirectToLoginPage} className='text-lg px-2'>Login</button> */}
                             <button className='flex items-center gap-2 bg-green-700 hover:bg-green-600 px-3 py-3 rounded text-white'>
                                 {/* Add to cart icon */}
                                 <div className='animate-bounce'>
