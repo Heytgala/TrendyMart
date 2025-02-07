@@ -34,7 +34,7 @@ app.get("/",(request,response)=>{
 
 app.use('/api/user',userRouter)
 app.use('/api/category',categoryRouter)
-app.use('/file',uploadRouter)
+app.use('/api/file',uploadRouter)
 
 connectDB().then(()=>{
     app.listen(PORT,()=>{
