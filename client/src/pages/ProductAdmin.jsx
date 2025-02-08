@@ -16,6 +16,7 @@ const ProductAdmin = () => {
   
   const fetchProductData = async()=>{
     try {
+        console.log(search)
         setLoading(true)
         const response = await Axios({
            ...SummaryApi.getProduct,

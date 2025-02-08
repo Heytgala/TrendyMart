@@ -17,7 +17,7 @@ export const createProductController = async(request,response)=>{
 
         if(!name || !image[0] || !category[0] || !subCategory[0] || !unit || !price || !description ){
             return response.status(400).json({
-                message : "Enter mandatory fields",
+                message : "Enter required fields",
                 error : true,
                 success : false
             })
@@ -55,7 +55,7 @@ export const createProductController = async(request,response)=>{
 
 export const getProductController = async(request,response)=>{
     try {
-        
+        console.log(request.body)
         let { page, limit, search } = request.body 
 
         if(!page){
@@ -74,11 +74,15 @@ export const getProductController = async(request,response)=>{
 
         const skip = (page - 1) * limit
 
+        console.log(query)
+
         const [data,totalCount] = await Promise.all([
             ProductModel.find(query).sort({createdAt : -1 }).skip(skip).limit(limit).populate('category subCategory'),
             ProductModel.countDocuments(query)
         ])
 
+        console.log(data)
+        
         return response.json({
             message : "Product data",
             error : false,
@@ -102,7 +106,7 @@ export const getProductByCategory = async(request,response)=>{
 
         if(!id){
             return response.status(400).json({
-                message : "Please provide correct category id",
+                message : "provide category id",
                 error : true,
                 success : false
             })
@@ -133,7 +137,7 @@ export const getProductByCategoryAndSubCategory  = async(request,response)=>{
 
         if(!categoryId || !subCategoryId){
             return response.status(400).json({
-                message : "Please provide categoryId and subCategoryId",
+                message : "Provide categoryId and subCategoryId",
                 error : true,
                 success : false
             })
@@ -186,7 +190,7 @@ export const getProductDetails = async(request,response)=>{
 
 
         return response.json({
-            message : "Product Details",
+            message : "product details",
             data : product,
             error : false,
             success : true
@@ -208,7 +212,7 @@ export const updateProductDetails = async(request,response)=>{
 
         if(!_id){
             return response.status(400).json({
-                message : "Please provide correct product id",
+                message : "provide product _id",
                 error : true,
                 success : false
             })
@@ -219,7 +223,7 @@ export const updateProductDetails = async(request,response)=>{
         })
 
         return response.json({
-            message : "Product has beeen updated successfully",
+            message : "updated successfully",
             data : updateProduct,
             error : false,
             success : true
@@ -241,7 +245,7 @@ export const deleteProductDetails = async(request,response)=>{
 
         if(!_id){
             return response.status(400).json({
-                message : "Please provide correct Id ",
+                message : "provide _id ",
                 error : true,
                 success : false
             })
@@ -250,7 +254,7 @@ export const deleteProductDetails = async(request,response)=>{
         const deleteProduct = await ProductModel.deleteOne({_id : _id })
 
         return response.json({
-            message : "Product is deleted successfully",
+            message : "Delete successfully",
             error : false,
             success : true,
             data : deleteProduct
