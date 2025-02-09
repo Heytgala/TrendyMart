@@ -212,7 +212,7 @@ export const updateProductDetails = async(request,response)=>{
 
         if(!_id){
             return response.status(400).json({
-                message : "provide product _id",
+                message : "Please provide product id",
                 error : true,
                 success : false
             })
@@ -223,7 +223,7 @@ export const updateProductDetails = async(request,response)=>{
         })
 
         return response.json({
-            message : "updated successfully",
+            message : "Product details are updated successfully",
             data : updateProduct,
             error : false,
             success : true
@@ -245,7 +245,7 @@ export const deleteProductDetails = async(request,response)=>{
 
         if(!_id){
             return response.status(400).json({
-                message : "provide _id ",
+                message : "Please provide id ",
                 error : true,
                 success : false
             })
@@ -254,7 +254,7 @@ export const deleteProductDetails = async(request,response)=>{
         const deleteProduct = await ProductModel.deleteOne({_id : _id })
 
         return response.json({
-            message : "Delete successfully",
+            message : "Product is deleted successfully",
             error : false,
             success : true,
             data : deleteProduct
