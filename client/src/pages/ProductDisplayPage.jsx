@@ -202,7 +202,7 @@ const ProductDisplayPage = () => {
             </div>
 
             {/****only mobile */}
-            <div className='my-4 grid gap-3 '>
+            <div className='my-4 grid gap-3 lg:hidden'>
                 <div>
                     <p className='font-semibold'>Description</p>
                     <p className='text-base'>{data.description}</p>
