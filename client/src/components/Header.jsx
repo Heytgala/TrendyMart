@@ -8,6 +8,12 @@ import { FiShoppingCart } from "react-icons/fi";
 import { useSelector } from 'react-redux';
 import { GoTriangleDown, GoTriangleUp  } from "react-icons/go";
 import UserMenu from './UserMenu';
+import { useGlobalContext } from '../provider/GlobalProvider';
+import { BsCart4 } from "react-icons/bs";
+import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees';
+
+
+
 
 
 const Header = () => {
@@ -18,6 +24,11 @@ const Header = () => {
     const navigate = useNavigate()
 
     const user = useSelector((state)=> state?.user)
+    const cartItem = useSelector(state => state.cartItem.cart)
+
+    const { totalPrice, totalQty} = useGlobalContext()
+    const [openCartSection,setOpenCartSection] = useState(false)
+ 
 
     const [openUserMenu,setOpenUserMenu] = useState(false)
 
@@ -91,16 +102,25 @@ const Header = () => {
                                 )
                             }
                             {/* <button onClick={redirectToLoginPage} className='text-lg px-2'>Login</button> */}
-                            <button className='flex items-center gap-2 bg-green-700 hover:bg-green-600 px-3 py-3 rounded text-white'>
-                                {/* Add to cart icon */}
+                            <button onClick={()=>setOpenCartSection(true)} className='flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-2 rounded text-white'>
+                                {/**add to card icons */}
                                 <div className='animate-bounce'>
-                                    <FiShoppingCart size={25}/>
+                                    <BsCart4 size={26}/>
                                 </div>
-                                {/* Cart Items count & Price */}
-                                <div className='font-semibold'>
-                                    <p>My Cart</p>
-                                </div>
+                                <div className='font-semibold text-sm'>
+                                    {
+                                        cartItem[0] ? (
+                                            <div>
+                                                <p>{totalQty} Items</p>
+                                                <p>{DisplayPriceInRupees(totalPrice)}</p>
+                                            </div>
+                                        ) : (
+                                            <p>My Cart</p>
+                                        )
+                                    }
+                                </div>    
                             </button>
+                            
                         </div>               
                     </div>
                 </div>
@@ -109,7 +129,11 @@ const Header = () => {
         <div className='container mx-auto px-2 lg:hidden'>
             <Search/>
         </div>
-        
+        {
+            openCartSection && (
+                <DisplayCartItem close={()=>setOpenCartSection(false)}/>
+            )
+        }
     </header>
   )
 }

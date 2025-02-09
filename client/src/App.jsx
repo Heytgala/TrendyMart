@@ -10,6 +10,8 @@ import { useEffect } from 'react'
 import { setAllCategory,setAllSubCategory,setLoadingCategory } from './store/productSlice';
 import Axios from './utils/Axios'
 import SummaryApi from './common/SummaryApi'
+import { handleAddItemCart } from './store/cartProduct'
+import GlobalProvider from './provider/GlobalProvider'
 
 function App() {
 
@@ -65,12 +67,15 @@ function App() {
 
   return (
     <>
-      <Header/>
-      <main className='min-h-[78vh]'> 
-        <Outlet/>
-      </main>
-      <Footer/>
-      <Toaster/>
+      <GlobalProvider>
+        <Header/>
+        <main className='min-h-[78vh]'>
+          <Outlet/>
+        </main>
+        <Footer/>
+        <Toaster/>
+      </GlobalProvider>
+      
     </>  
   )
 }
