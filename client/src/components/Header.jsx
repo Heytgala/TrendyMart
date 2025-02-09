@@ -11,7 +11,7 @@ import UserMenu from './UserMenu';
 import { useGlobalContext } from '../provider/GlobalProvider';
 import { BsCart4 } from "react-icons/bs";
 import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees';
-
+import DisplayCartItem from './DisplayCartItem';
 
 
 

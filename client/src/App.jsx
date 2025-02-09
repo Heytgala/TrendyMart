@@ -12,6 +12,7 @@ import Axios from './utils/Axios'
 import SummaryApi from './common/SummaryApi'
 import { handleAddItemCart } from './store/cartProduct'
 import GlobalProvider from './provider/GlobalProvider'
+import CartMobileLink from './components/CartMobile'
 
 function App() {
 
@@ -74,6 +75,11 @@ function App() {
         </main>
         <Footer/>
         <Toaster/>
+        {
+          location.pathname !== '/checkout' && (
+            <CartMobileLink/>
+          )
+        }
       </GlobalProvider>
       
     </>  
