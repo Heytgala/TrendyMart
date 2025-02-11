@@ -53,3 +53,55 @@
   background-color: #bfdbfe; /* bg-blue-100 */
   border-radius: 9999px; /* rounded-full */
 }
+
+
+/* Dashboard layout */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  background-color: white;
+}
+
+/* Sidebar (UserMenu) */
+.dashboard-sidebar {
+  width: 250px;
+  padding: 30px;
+  position: fixed;
+  top: 20;
+  left: 30;
+  height: max-content;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hide sidebar on small screens */
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    transform: translateX(-100%);
+    position: fixed;
+  }
+}
+
+/* Show sidebar when toggled */
+.dashboard-sidebar.active {
+  transform: translateX(0);
+}
+
+/* Right content */
+.dashboard-content {
+  margin-left: 250px; /* Push content to the right */
+  padding: 20px;
+  width: calc(100% - 250px);
+  overflow-y: auto;
+  height: 100vh;
+  background-color: white;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Full-width content on small screens */
+@media (max-width: 768px) {
+  .dashboard-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
