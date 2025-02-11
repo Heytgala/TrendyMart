@@ -14,12 +14,12 @@ TrendyMart is a feature-rich e-commerce platform that allows customers to shop f
 ---
 
 ## 🌟 Features  
-Product Search & Categories: Easily search for products and browse through various categories.
-Shopping Cart: Add products to the cart, modify quantities, and proceed with checkout.
-Online Payments: Integrated with Stripe to securely process payments.
-Order Tracking: View order history and track the status of your orders.
-User Authentication: Register, log in, and change passwords with OTP verification for added security.
-Address Management: Add, update, and manage delivery addresses.
+- **Product Search & Categories:** Easily search for products and browse through various categories.
+- **Shopping Cart:** Add products to the cart, modify quantities, and proceed with checkout.
+- **Online Payments:** Integrated with Stripe to securely process payments.
+- **Order Tracking:** View order history and track the status of your orders.
+- **User Authentication:** Register, log in, and change passwords with OTP verification for added security.
+- **Address Management:** Add, update, and manage delivery addresses.
 
 ---
 
